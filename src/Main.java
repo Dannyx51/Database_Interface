@@ -22,7 +22,7 @@ public class Main {
 
         String choice = "";
         while (!choice.equalsIgnoreCase("n")) {
-            
+
 
             choice = input.nextLine();
         }
