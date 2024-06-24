@@ -2,168 +2,221 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
-
-    // {Coach_Id, Coach_Name}
-    HashMap<String, String> coaches = new HashMap<>();
-
-    // {Team_Id, Team_Name, Year, Conference, Coach_Id}
-    HashMap<String, HashMap<String, String>> teams = new HashMap<>();
-
-    // {Player_Id, Team_Id, Name, Age, Year, Height, Weight}
-    HashMap<String, HashMap<String, String>> players = new HashMap<>();
+    static HashMap<String, String> teams = new HashMap<>();
+    static HashMap<String, String> coaches = new HashMap<>();
+    static HashMap<String, String> players = new HashMap<>();
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        String[] mainOptionList = {"Team", "Coach", "Coach_Season_Stats", "Team_Season_Stats", "Team_Game_Stats", "Player",
-                "Player_Season_Stats", "Player_Game_Stats", "Game"};
-
-        String[] subOptions = {"Add", "Update", "Delete"};
-
         String choice = "";
-        while (!choice.equalsIgnoreCase("n")) {
+        while (!choice.equals("9")) {
+            System.out.println("-------------------");
 
+            System.out.println("0: add an entity.");
+            System.out.println("1: delete an entity.");
+            System.out.println("2: update an entity.");
+            System.out.println("3: view an entity.");
+            System.out.println("9: exit the program.");
+            System.out.print("Enter your choice: ");
 
             choice = input.nextLine();
+
+            System.out.println("-------------------");
+            String aChoice;
+            switch (choice) {
+                case "0":
+                    System.out.println("0: team");
+                    System.out.println("1: coach");
+                    System.out.println("2: player");
+                    System.out.print("Choose an entity: ");
+
+                    aChoice = input.nextLine();
+                    if (!aChoice.equals("1") && !aChoice.equals("2") && !aChoice.equals("0")) {
+                        System.out.println("Invalid input.");
+                    }
+
+                    System.out.print("Enter a name: ");
+                    String name = input.nextLine();
+                    switch (aChoice) {
+                        case "0":
+                            addTeam(name);
+                            return;
+                        case "1":
+                            addCoach(name);
+                            return;
+                        case "2":
+                            addPlayers(name);
+                            return;
+                    }
+                    return;
+                case "1":
+                    System.out.println("0: team");
+                    System.out.println("1: coach");
+                    System.out.println("2: player");
+                    System.out.print("Choose an entity: ");
+
+                    aChoice = input.nextLine();
+                    if (!aChoice.equals("1") && !aChoice.equals("2") && !aChoice.equals("0")) {
+                        System.out.println("Invalid input.");
+                    }
+                    System.out.print("Enter an id: ");
+                    String id = input.nextLine();
+
+                    switch(aChoice) {
+                        case "1":
+                            if (!teams.containsKey(id)) {
+                                System.out.println("Unable to locate team " + id + ".");
+                            } else {
+                                removeTeam(id);
+                            }
+                            return;
+                        case "2":
+                            if (!players.containsKey(id)) {
+                                System.out.println("Unable to locate player " + id + ".");
+                            } else {
+                                removePlayer(id);
+                            }
+                            return;
+                        case "0":
+                            if (!coaches.containsKey(id)) {
+                                System.out.println("Unable to locate coach " + id + ".");
+                            } else {
+                                removeCoach(id);
+                            }
+                            return;
+                    }
+                    return;
+                case "2":
+                    System.out.println("0: team");
+                    System.out.println("1: coach");
+                    System.out.println("2: player");
+                    System.out.print("Choose an entity: ");
+
+                    aChoice = input.nextLine();
+                    if (!aChoice.equals("1") && !aChoice.equals("2") && !aChoice.equals("0")) {
+                        System.out.println("Invalid input.");
+                    }
+                    System.out.print("Enter an id: ");
+                    String new_id = input.nextLine();
+
+                    System.out.print("Enter a new name: ");
+                    String new_name = input.nextLine();
+                    switch(aChoice) {
+                        case "1":
+                            if (!teams.containsKey(new_id)) {
+                                System.out.println("Unable to locate team " + new_id + ".");
+                            } else {
+                                updateTeam(new_id, new_name);
+                            }
+                            return;
+                        case "2":
+                            if (!players.containsKey(new_id)) {
+                                System.out.println("Unable to locate player " + new_id + ".");
+                            } else {
+                                updatePlayer(new_id, new_name);
+                            }
+                            return;
+                        case "0":
+                            if (!coaches.containsKey(new_id)) {
+                                System.out.println("Unable to locate coach " + new_id + ".");
+                            } else {
+                                updateCoach(new_id, new_name);
+                            }
+                            return;
+                    }
+                    return;
+                case "3":
+                    System.out.println("Not currently implemented.");
+                    return;
+                default:
+                    System.out.println("Invalid choice");
+            }
         }
 
         input.close();
     }
 
+    public static void addTeam(String team) {
+        int _n = teams.size(), _sum = 0;
+        for (String i : teams.keySet()) {_sum += Integer.parseInt(i);}
 
+        String id = Integer.toString(Math.abs(_sum - (_n * (_n + 1)) / 2));
 
-    //region <Coach Commands>
-    /**
-     *
-     * @param name The name of the coach to be added.
-     * @return The status message of the operation.
-     */
-    public String addCoach(String name) {
-        // calculate next id
-        int _n = coaches.size(), _idSum = 0;
-        for (String i : coaches.keySet()) { _idSum += Integer.parseInt(i); }
+        teams.put(id, team);
 
-        int coachId = Math.abs(_idSum - (_n*(_n + 1) / 2));
-
-        coaches.put(Integer.toString(coachId), name);
-
-        return "The coach has been successfully added.";
+        System.out.println("Successfully added team " + team + ".");
     }
 
-    /**
-     *
-     * @param coachId the id of the coach to be removed.
-     * @return The status message of the operation.
-     */
-    public String deleteCoach(String coachId) {
-        if (!coaches.containsKey(coachId)) { return "The requested coachId does not exist."; }
-        coaches.remove(coachId);
-        return "The coach has been successfully deleted.";
+    public static void addCoach(String coach) {
+        int _n = coaches.size(), _sum = 0;
+        for (String i : coaches.keySet()) {_sum += Integer.parseInt(i);}
+
+        String id = Integer.toString(Math.abs(_sum - (_n * (_n + 1)) / 2));
+
+        coaches.put(id, coach);
+
+        System.out.println("Successfully added coach " + coach + ".");
     }
 
-    /**
-     *
-     * @param coachId the id of the coach to be updated.
-     * @return The status message of the operation.
-     */
-    public String updateCoach(String coachId, String newName) {
-        if (!coaches.containsKey(coachId)) { return "The requested coachId does not exist."; }
-        coaches.put(coachId, newName);
-        return "The coach has been successfully updated.";
-    }
-    //endregion
+    public static void addPlayers(String player) {
+        int _n = players.size(), _sum = 0;
+        for (String i : players.keySet()) {_sum += Integer.parseInt(i);}
 
-    //region <Team Commands>
-    /**
-     *
-     * @param name
-     * @param year
-     * @param conference
-     * @param coachId
-     * @return The status message of the operation
-     */
-    public String addTeam(String name, String year, String conference, String coachId) {
-        if (!coaches.containsKey(coachId)) { return "The referenced coachId does not exist."; }
+        String id = Integer.toString(Math.abs(_sum - (_n * (_n + 1)) / 2));
 
-        // calculate next teamId
-        int _n = teams.size(), _idSum = 0;
-        for (String i : teams.keySet()) { _idSum += Integer.parseInt(i); }
-        int teamId = Math.abs(_idSum - (_n*(_n + 1) / 2));
+        players.put(id, player);
 
-        HashMap<String, String> submap = new HashMap<>();
-        submap.put("name", name);
-        submap.put("year", year);
-        submap.put("conference", conference);
-        submap.put("coachid", coachId);
-
-        teams.put(Integer.toString(teamId), submap);
-
-        return "The team has been successfully added.";
+        System.out.println("Successfully added player " + player + ".");
     }
 
-    public String deleteTeam(String teamId) {
-        if (!teams.containsKey(teamId)) { return "The requested teamId does not exist."; }
-        teams.remove(teamId);
-        return "The team has been successfully deleted.";
+    public static void removePlayer(String id) {
+        players.remove(id);
+        System.out.println("Successfully removed player " + id + ".");
     }
 
-    public String updateTeam(String teamId, String newName, String newYear, String newConference, String newCoachId) {
-        if (!teams.containsKey(teamId)) { return "The referenced teamId does not exist."; }
-        if (!coaches.containsKey(newCoachId)) { return "The requested coachId does not exist."; }
-
-        HashMap<String, String> submap = teams.get(teamId);
-        submap.put("name", newName);
-        submap.put("newYear", newYear);
-        submap.put("conference", newConference);
-        submap.put("coachid", newCoachId);
-
-        return "The team has been successfully updated.";
-    }
-    //endregion
-
-    //region <Player Commands>
-    public String addPlayer(String teamId, String name, String age, String year, String height, String weight) {
-        if (!teams.containsKey(teamId)) { return "The referenced teamId does not exist."; }
-        int _n = players.size(), _idSum = 0;
-        for (String i : players.keySet()) { _idSum += Integer.parseInt(i); }
-        int playerId = Math.abs(_idSum - (_n*(_n + 1) / 2));
-
-        HashMap<String, String> submap = new HashMap<>();
-        submap.put("teamid", teamId);
-        submap.put("name", name);
-        submap.put("age", age);
-        submap.put("year", year);
-        submap.put("height", height);
-        submap.put("weight", weight);
-
-        players.put(Integer.toString(playerId), submap);
-
-        return "The player has been successfully added.";
+    public static void removeTeam(String id) {
+        if (!teams.containsKey(id)) {
+            System.out.println("Unable to locate team " + id + ".");
+            return;
+        }
+        teams.remove(id);
+        System.out.println("Successfully removed team " + id + ".");
     }
 
-    public String deletePlayer(String playerId) {
-        if (!players.containsKey(playerId)) { return "The requested player does not exist."; }
-        players.remove(playerId);
-        return "The player has been successfully deleted.";
+    public static void removeCoach(String id) {
+        if (!coaches.containsKey(id)) {
+            System.out.println("Unable to locate coach " + id + ".");
+            return;
+        }
+        coaches.remove(id);
+        System.out.println("Successfully removed coach " + id + ".");
     }
 
-    public String updatePlayer(String playerId, String newTeamId, String newName, String newAge, String newHeight, String newWeight) {
-        if (!players.containsKey(playerId)) { return "The referenced player does not exist."; }
-        if (!teams.containsKey(newTeamId)) { return "The referenced teamId does not exist."; }
-
-        HashMap<String, String> submap = players.get(playerId);
-        submap.put("teamid", newTeamId);
-        submap.put("name", newName);
-        submap.put("age", newAge);
-        submap.put("height", newHeight);
-        submap.put("weight", newWeight);
-
-        return "The player has been successfully updated.";
+    public static void updateTeam(String id, String team) {
+        if (!teams.containsKey(id)) {
+            System.out.println("Unable to locate team " + id + ".");
+            return;
+        }
+        teams.put(id, team);
+        System.out.println("Successfully updated team " + team + ".");
     }
-    //endregion
 
-    /// cleanup & helper functions ///
-    public static void clearConsole() {
+    public static void updateCoach(String id, String coach) {
+        if (!coaches.containsKey(id)) {
+            System.out.println("Unable to locate coach " + id + ".");
+            return;
+        }
+        coaches.put(id, coach);
+        System.out.println("Successfully updated coach " + id + ".");
+    }
 
+    public static void updatePlayer(String id, String player) {
+        if (!players.containsKey(id)) {
+            System.out.println("Unable to locate player " + id + ".");
+            return;
+        }
+        players.put(id, player);
+        System.out.println("Successfully updated player " + id + ".");
     }
 }
