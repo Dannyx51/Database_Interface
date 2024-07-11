@@ -107,4 +107,35 @@ public class SQL {
     	sqlQuery(GRS.conn, ps);
     }
     
+    /**
+     * Create PreparedStatement to add an entry to a table.
+     * 
+     * @param sql query for prepared statement
+     * 
+     * @param name name to add
+     */
+    public static void ps_Add_Delete_Entry(String sql, String name){
+    	try {
+    		ps = GRS.conn.prepareStatement(sql);
+    		ps.setString(1, name);
+    		
+    	} catch (SQLException e) {
+    		System.out.println(e.getMessage());
+    	}
+    	
+    	sqlQuery(GRS.conn, ps);
+    }
+    
+    public static void ps_EditEntry(String sql, String old_name, String new_name) {
+    	try {
+    		ps = GRS.conn.prepareStatement(sql);
+    		ps.setString(1, old_name);
+    		ps.setString(2, new_name);
+    		
+    	} catch (SQLException e) {
+    		System.out.println(e.getMessage());
+    	}
+    	
+    	sqlQuery(GRS.conn, ps);
+    }
 }

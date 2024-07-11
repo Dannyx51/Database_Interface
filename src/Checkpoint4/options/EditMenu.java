@@ -66,22 +66,50 @@ public class EditMenu {
 	}
 	
 	private static void addEntry(Scanner cin, String table) {
-		System.out.print("Enter artist name: ");
-		String artist_name = cin.nextLine().trim();
+		System.out.print("Enter "+table+" name (or 'x' to quit): ");
+		String name = cin.nextLine().trim();
 
-		if (artist_name.isEmpty()) {
-			System.out.println("Artist name cannot be empty!");
-			return;
+		while(name.isBlank() || name.equalsIgnoreCase("x")) {
+			System.out.print("Incorrect option specified! Try again: ");
+			name = cin.nextLine().trim();
 		}
-
 		
+		String sql = "INSERT INTO "+table.toUpperCase()+" (Name) VALUES (?)";
+		SQL.ps_Add_Delete_Entry(sql, name);
     }
 	
 	private static void deleteEntry(Scanner cin, String table) {
+		System.out.print("Enter "+table+" name (or 'x' to quit): ");
+		String name = cin.nextLine().trim();
 		
+		while(name.isBlank() || name.equalsIgnoreCase("x")) {
+			System.out.print("Invalid value inputed, try again: ");
+			name = cin.nextLine().trim();
+		}
+		
+		String sql = "DELETE FROM "+table.toUpperCase()+" WHERE Name=?";
+		SQL.ps_Add_Delete_Entry(sql, name);
 	}
 	
 	private static void updateEntry(Scanner cin, String table) {
+		System.out.print("Enter "+table+" name to be replaced (or 'x' to quit): ");
+		String old_name = cin.nextLine().trim();
 		
+		while(old_name.isBlank() || old_name.equalsIgnoreCase("x")) {
+			System.out.print("Invalid value inputed, try again: ");
+			old_name = cin.nextLine().trim();
+		}
+		
+		System.out.print("Enter new name to be replaced (or 'x' to quit): ");
+		String new_name = cin.nextLine().trim();
+		
+		while(new_name.isBlank() || new_name.equalsIgnoreCase("x")) {
+			System.out.print("Invalid value inputed, try again: ");
+			new_name = cin.nextLine().trim();
+		}
+		
+		
+		String sql = "DELETE FROM "+table.toUpperCase()+" WHERE Name=?";
+		SQL.ps_Add_Delete_Entry(sql, name);
 	}
 }
