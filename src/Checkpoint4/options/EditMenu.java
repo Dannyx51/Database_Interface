@@ -108,8 +108,7 @@ public class EditMenu {
 			new_name = cin.nextLine().trim();
 		}
 		
-		
-		String sql = "DELETE FROM "+table.toUpperCase()+" WHERE Name=?";
-		SQL.ps_Add_Delete_Entry(sql, name);
+		String sql = "UPDATE "+table.toUpperCase()+" SET Name=? WHERE Name=?";
+		SQL.ps_UpdateEntry(sql, old_name, new_name);
 	}
 }

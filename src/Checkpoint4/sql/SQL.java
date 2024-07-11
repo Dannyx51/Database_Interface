@@ -126,7 +126,7 @@ public class SQL {
     	sqlQuery(GRS.conn, ps);
     }
     
-    public static void ps_EditEntry(String sql, String old_name, String new_name) {
+    public static void ps_UpdateEntry(String sql, String old_name, String new_name) {
     	try {
     		ps = GRS.conn.prepareStatement(sql);
     		ps.setString(1, old_name);
