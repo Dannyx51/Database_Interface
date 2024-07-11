@@ -13,13 +13,14 @@ import Checkpoint4.sql.SQL;
 public class EditMenu {
 	
 	private static final Set<Character> MENU_OPTIONS = new HashSet<>(Arrays.asList('1', '2', '3', 'x'));
+	private static final String[] TABLES = {"Coach", "Team", "Player"};
 	
 	public static void menu(Scanner cin) {
 		Utilities.printDivider();
 		System.out.print("EDIT MENU:\n"
-				+ "1. Add Artist\n"
-				+ "2. Delete Artist\n"
-				+ "3. Update Artist\n"
+				+ "1. Add\n"
+				+ "2. Delete\n"
+				+ "3. Update\n"
 				+ "Input numerical selection (or 'x' to quit): ");
 		String input = cin.nextLine();
 		char selection = !input.isEmpty() ? input.charAt(0) : ' ';		
@@ -29,24 +30,42 @@ public class EditMenu {
 			input = cin.nextLine();
 			selection = !input.isEmpty() ? input.charAt(0) : ' ';
 		}
-
+		
+		Utilities.printDivider();
+		System.out.print("TABLE SELECTION:\n"
+				+ "1. Coach\n"
+				+ "2. Team\n"
+				+ "3. Player\n"
+				+ "Input numerical selection (or 'x' to quit): ");
+		input = cin.nextLine();
+		char selection2 = !input.isEmpty() ? input.charAt(0) : ' ';
+		
+		while(!MENU_OPTIONS.contains(selection2)) {
+			System.out.print("Incorrect option specified! Try again: ");
+			input = cin.nextLine();
+			selection2 = !input.isEmpty() ? input.charAt(0) : ' ';
+		}
+		
+		Utilities.printDivider();
+		
+		if (selection2 == 'x') { return; }
+		
 		switch(selection) {
 			case '1':
-				addArtist(cin);
+				addEntry(cin, TABLES[selection2 - '0' - 1]);
 				break;
 			case '2':
-
+				deleteEntry(cin, TABLES[selection2 - '0' - 1]);
 				break;
 			case '3':
-
+				updateEntry(cin, TABLES[selection2 - '0' - 1]);
 			default:
 				break;
 		}
+		Utilities.printDivider();
 	}
 	
-	private static void addArtist(Scanner cin) {
-		Utilities.printDivider();
-
+	private static void addEntry(Scanner cin, String table) {
 		System.out.print("Enter artist name: ");
 		String artist_name = cin.nextLine().trim();
 
@@ -55,21 +74,14 @@ public class EditMenu {
 			return;
 		}
 
-		System.out.print("Enter Birthday [YYYY-MM-DD] (or x to skip): ");
-		String birthday = cin.nextLine().trim();
-
-        if (!birthday.equals("x") && !birthday.isEmpty()) {
-            try {
-                var tempDateObj = new SimpleDateFormat("yyyy-MM-dd").parse(birthday);
-				java.sql.Date BDObj = new java.sql.Date(tempDateObj.getTime());
-				SQL.ps_AddArtist(artist_name, BDObj);
-
-            } catch (ParseException e) {
-                System.out.println("Invalid birthday, adding artist without birthday.");
-				SQL.ps_AddArtistNoBDay(artist_name);
-            }
-        } else {
-			SQL.ps_AddArtistNoBDay(artist_name);
-		}
+		
     }
+	
+	private static void deleteEntry(Scanner cin, String table) {
+		
+	}
+	
+	private static void updateEntry(Scanner cin, String table) {
+		
+	}
 }
