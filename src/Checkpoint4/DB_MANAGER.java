@@ -13,7 +13,7 @@ import Checkpoint4.options.SearchMenu;
 import Checkpoint4.options.EditMenu;
 import Checkpoint4.options.ViewMenu;
 
-public class GRS {	
+public class DB_MANAGER {	
 	
 	private static String DATABASE = "database_binary.db";
 	
@@ -52,7 +52,7 @@ public class GRS {
 		char selection;
 		do {
 			System.out.print("||CHECKPOINT 4||\n"
-					+ "----------------"
+					+ "----------------\n"
 					+ "1. VIEW MENU\n"
 					+ "2. SEARCH MENU\n"
 					+ "3. EDIT MENU\n"
@@ -99,7 +99,7 @@ public class GRS {
 			System.err.println(e.getMessage());
 		}
 		
-		System.out.println("Bye");
+		System.out.println("o7 thank you for using our services!");
 	}
 
 }

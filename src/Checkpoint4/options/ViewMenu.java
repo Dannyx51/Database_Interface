@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-import Checkpoint4.GRS;
+import Checkpoint4.DB_MANAGER;
 import Checkpoint4.utilities.Utilities;
 import Checkpoint4.sql.SQL;
 
@@ -58,7 +58,7 @@ public class ViewMenu {
 	 */
 	private static void viewCoaches() {
 		String sql = "SELECT * FROM COACH";
-		SQL.sqlQuery(GRS.conn, sql);
+		SQL.sqlQuery(DB_MANAGER.conn, sql);
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class ViewMenu {
 	 */
 	private static void viewTeams() {
 		String sql = "SELECT * FROM TEAM";
-		SQL.sqlQuery(GRS.conn, sql);
+		SQL.sqlQuery(DB_MANAGER.conn, sql);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class ViewMenu {
 	 */
 	private static void viewPlayers() {
 		String sql = "SELECT * FROM PLAYER";
-		SQL.sqlQuery(GRS.conn, sql);
+		SQL.sqlQuery(DB_MANAGER.conn, sql);
 	}
 	
 	private static void viewReports(Scanner cin) {
@@ -121,6 +121,6 @@ public class ViewMenu {
 		
 		if (sql.isBlank()) { return; }
 		
-		SQL.sqlQuery(GRS.conn, sql);
+		SQL.sqlQuery(DB_MANAGER.conn, sql);
 	}
 }

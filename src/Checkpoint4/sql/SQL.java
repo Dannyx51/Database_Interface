@@ -7,7 +7,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import Checkpoint4.GRS;
+import Checkpoint4.DB_MANAGER;
 
 /**
  * 
@@ -97,14 +97,14 @@ public class SQL {
      */
     public static void ps_SearchName(String sql, String name){
     	try {
-    		ps = GRS.conn.prepareStatement(sql);
+    		ps = DB_MANAGER.conn.prepareStatement(sql);
     		ps.setString(1, name);
     		
     	} catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     	
-    	sqlQuery(GRS.conn, ps);
+    	sqlQuery(DB_MANAGER.conn, ps);
     }
     
     /**
@@ -116,19 +116,19 @@ public class SQL {
      */
     public static void ps_Add_Delete_Entry(String sql, String name){
     	try {
-    		ps = GRS.conn.prepareStatement(sql);
+    		ps = DB_MANAGER.conn.prepareStatement(sql);
     		ps.setString(1, name);
     		
     	} catch (SQLException e) {
     		System.out.println(e.getMessage());
     	}
     	
-    	sqlQuery(GRS.conn, ps);
+    	sqlQuery(DB_MANAGER.conn, ps);
     }
     
     public static void ps_UpdateEntry(String sql, String old_name, String new_name) {
     	try {
-    		ps = GRS.conn.prepareStatement(sql);
+    		ps = DB_MANAGER.conn.prepareStatement(sql);
     		ps.setString(1, old_name);
     		ps.setString(2, new_name);
     		
@@ -136,6 +136,6 @@ public class SQL {
     		System.out.println(e.getMessage());
     	}
     	
-    	sqlQuery(GRS.conn, ps);
+    	sqlQuery(DB_MANAGER.conn, ps);
     }
 }
